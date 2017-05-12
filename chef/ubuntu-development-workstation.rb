@@ -1,13 +1,3 @@
-# install os
-
-# execute 'Remove sudo password' do
-  # command 'sudo echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers'
-# end
-
-# grab and install the chef client
-  # wget https://packages.chef.io/files/stable/chef/12.19.36/ubuntu/16.04/chef_12.19.36-1_amd64.deb
-  # sudo dpkg -i chef_12.19.36-1_amd64.deb
-
 apt_update 'Update the apt cache' do
   action :update
 end
@@ -17,43 +7,91 @@ execute 'Upgrade packages' do
 end
 
 package [
+  ### utils
   'git',
   'htop',
   'gparted',
   'nemo',
+  'sysinfo',
   'silversearcher-ag',
+  ### system
+  'build-essential',
+  'nfs-common',
+  'nfs-kernel-server',
+  ### network
   'openvpn',
   'ufw',
-  'sysinfo',
   'nmap',
+  ### dev
   'ruby-bundler',
+  'ruby-dev',
+  'libz-dev',
+  ### vms
+  'virtualbox',
+  'virtualbox-guest-additions-iso',
+  ### av
   'gimp',
-  'nfs-common',
-  'nfs-kernel-server'
+  ### other dependencies
+  'libqt4-opengl', # for virtualbox
 ]
 
 execute 'Start firewall' do
   command 'ufw enable'
 end
 
-directory '/home/user/Downloads/Packages' do
-  action :create
-end
+##### installs
 
-remote_file '/home/user/Downloads/Packages/sublime-text_build-3126_amd64.deb' do
-  action :create
-  source 'https://download.sublimetext.com/sublime-text_build-3126_amd64.deb'
-end
-
+### utils
+# sublime text
 dpkg_package '/home/user/Downloads/Packages/sublime-text_build-3126_amd64.deb' do
   action :install
+end
+
+### vms
+# virtualbox
+#dpkg_package '/home/user/Downloads/Packages/virtualbox-5.0_5.0.36-114008~Ubuntu~xenial_amd64.deb' do
+  #action :install
+#end
+# vagrant
+dpkg_package '/home/user/Downloads/Packages/vagrant_1.9.2_x86_64.deb' do
+  action :install
+end
+execute 'Install vagrant pluging vagrant-omnibus' do
+  command 'vagrant plugin install vagrant-omnibus'
+end
+
+### dev
+# gitkraken
+dpkg_package '/home/user/Downloads/Packages/gitkraken-amd64.deb' do
+  action :install
+end
+
+# ssh keys
+directory '/home/user/.ssh' do
+  action :create
+  owner 'user'
+  group 'user'
+  mode '0700'
+end
+
+file '/home/user/.ssh/id_rsa' do
+  action :touch
+  owner 'user'
+  group 'user'
+  mode '0600'
+end
+
+file '/home/user/.ssh/known_hosts' do
+  action :touch
+  owner 'user'
+  group 'user'
+  mode '0644'
 end
 
 ##### figure out how to do this
 
 ### install
 # pip
-# sublime text
 # zoom
 # cisco anyconnect
 # veracrypt
@@ -66,8 +104,12 @@ end
 ### prefs
 # nemo
 # blank screen / screensaver
+# gnome favorites bar
 
 ### configure
 # terminal preferences
 # ssh key
 # background image
+
+### git repos
+# [list em here]
