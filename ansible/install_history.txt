@@ -17,9 +17,9 @@ run these commands:
   $ sudo su -
   $ mkdir -p /home/user/Development/github/sudobasher/builds.local/ansible/
   $ cd /home/user/Development/github/sudobasher/builds.local/ansible
-  $ wget https://raw.githubusercontent.com/SudoBasher/builds.local/master/ansible/kickstarter.sh
+  $ wget https://raw.githubusercontent.com/SudoBasher/builds/master/ansible/kickstarter.sh
   ## run commands in kickstarter one by one manually, following the notes in there
-  $ wget https://raw.githubusercontent.com/SudoBasher/builds.local/master/ansible/bootstrap.sh
+  $ wget https://raw.githubusercontent.com/SudoBasher/builds/master/ansible/bootstrap.sh
   $ sudo chmod +x bootstrap.sh
   $ . bootstrap.sh
 
