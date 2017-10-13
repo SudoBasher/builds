@@ -1,5 +1,9 @@
 #!/bin/bash
-## run as root
+## run as root ($ sudo su -)
+
+## to use this:
+## $ sudo chmod +x bootstrap.sh
+## $ . bootstrap.sh
 
 mkdir -p /home/user/Downloads/Packages/
 sudo chown -R user:user /home/user/Downloads/Packages/

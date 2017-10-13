@@ -1,11 +1,8 @@
 #!/bin/bash
-## run as root
+## run as root ($ sudo su -)
+## run these commands one by one
 
-## single line commands
-
-ssh-keygen -b 4096 -t rsa -f /home/user/.ssh/id_rsa -C $HOSTNAME
-
-## batch commands
-
-chmod 700 /home/user/.ssh/
-chown -R user:user /home/user/.ssh
+$ sudo su -
+$ ssh-keygen -b 4096 -t rsa -f /home/user/.ssh/id_rsa -C $HOSTNAME
+$ chmod 700 /home/user/.ssh/
+$ chown -R user:user /home/user/.ssh
