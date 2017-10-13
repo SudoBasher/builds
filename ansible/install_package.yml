@@ -1,0 +1,15 @@
+---
+
+- name: "Check if {{ item.name }} is installed"
+  command: "dpkg-query -W {{ item.name }}"
+  register: "{{ item.register }}_check_deb"
+  failed_when: "{{ item.register }}_check_deb.rc > 1"
+  changed_when: "{{ item.register }}_check_deb.rc == 1"
+- name: "get {{ item.name }}"
+  get_url:
+    url: "{{ item.url }}{{ item.package }}"
+    dest: "{{ download_packages_folder }}{{ item.package }}"
+  when: "{{ item.register }}_check_deb.rc == 1"
+- name: "install {{ item.name }}"
+  apt: "deb={{ download_packages_folder }}{{ item.package }}"
+  when: "{{ item.register }}_check_deb.rc == 1"

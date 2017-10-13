@@ -1,10 +1,14 @@
 #!/bin/bash
+## run as root
+
 mkdir -p /home/user/Downloads/Packages/
-mkdir -p /home/user/Development/Github/sudobasher/builds/ansible/
-wget https://raw.githubusercontent.com/SudoBasher/builds/master/ansible/ubuntu-development-workstation.yml -O /home/user/Development/Github/sudobasher/builds/ansible/ubuntu-development-workstation.yml
-apt-get update
+sudo chown -R user:user /home/user/Downloads/Packages/
+mkdir -p /home/user/Development/github/sudobasher/builds.local/ansible/
+wget https://raw.githubusercontent.com/SudoBasher/builds.local/master/ansible/ubuntu-development-workstation.yml -O /home/user/Development/github/sudobasher/builds.local/ansible/ubuntu-development-workstation.yml
+sudo chown -R user:user /home/user/Development/
+apt-get -y update
 apt-get install software-properties-common
 apt-add-repository ppa:ansible/ansible
-apt-get update
-apt-get install ansible
-# ansible-playbook
+apt-get -y update
+apt-get -y install ansible
+ansible-playbook /home/user/Development/github/sudobasher/builds.local/ansible/ubuntu-development-workstation.yml 
