@@ -36,6 +36,17 @@
       line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
       state: present
 
+  ## add timestamps to terminal histories
+
+  - name: "adding timestamps to terminal history in {{ item }}"
+    lineinfile:
+      dest: "{{ item }}"
+      line: 'export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "'
+      state: present
+    with_items:
+      - /home/user/.bashrc
+      - /root/.bashrc
+
   ## add apt repos
 
   - name: get sublime text gpg key
