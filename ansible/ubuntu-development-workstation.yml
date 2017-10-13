@@ -1,1 +1,169 @@
+
 ---
+- hosts: localhost
+  vars:
+    username: user
+    download_packages_folder: "/home/{{ username }}/Downloads/Packages/"
+    software:
+      - name: slack
+        register: slack
+        url: https://downloads.slack-edge.com/linux_releases/
+        package: slack-desktop-2.8.1-amd64.deb
+      - name: google-chrome-stable 
+        register: google_chrome_stable
+        url: https://dl.google.com/linux/direct/
+        package: google-chrome-stable_current_amd64.deb
+      - name: zoom 
+        register: gitkraken
+        url: https://zoom.us/client/latest/
+        package: zoom_amd64.deb
+      - name: code 
+        register: code
+        url:  https://vscode-update.azurewebsites.net/latest/linux-deb-x64/
+        package: stable
+      - name: mysql-workbench-community
+        register: mysql_workbench_community
+        url:  https://dev.mysql.com/get/Downloads/MySQLGUITools/
+        package: mysql-workbench-community-6.3.9-1ubuntu16.04-amd64.deb
+
+  tasks:
+
+  ## add to sudoers
+
+  - name: "adding {{ username }} to sudoers file"
+    lineinfile:
+      dest: /etc/sudoers
+      line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+      state: present
+
+  ## add apt repos
+
+  - name: get sublime text gpg key
+    shell: wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+  - name: add sublime apt channel
+    shell: 'echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list'
+  
+  ## update & upgrade
+
+  - name: update the cache
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+      autoclean: yes
+  - name: update installed packages
+    shell: apt -yq --no-install-suggests --no-install-recommends upgrade
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+      DEBIAN_FRONTEND: noninteractive
+  
+  ## create folders 
+
+  - name: "add {{ username }} folders"
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: "{{ username }}"
+      group: "{{ username }}"
+    with_items:
+      - /home/{{ username }}//Development
+      - /home/{{ username }}//Storage
+      - /home/{{ username }}//.aws
+      - /home/{{ username }}//.aliyuncli
+
+  ## base software installs
+
+  - name: install base software
+    apt:
+      name: "{{ item }}"
+      state: present
+      install_recommends: no
+    with_items:
+      ## code
+      - git
+      - curl
+      - ruby-bundler
+      - python-pip
+      - silversearcher-ag
+      - sublime-text
+      - meld
+      ## database
+      - mysql-client-core-5.7
+      ## utilities & file system
+      - htop
+      - nemo
+      - gparted
+      - nfs-common
+      - nfs-kernel-server
+      - sysinfo
+      ## packages
+      - apt-transport-https
+      ## networking
+      - openvpn
+      - ufw
+      - nmap
+      ## av
+      - gimp
+      ## office
+      - libreoffice
+  - name: enable firewall
+    ufw:
+      state: enabled
+
+  ## pip installs
+
+  - name: "installing cloud cli apps"
+    pip:
+      name: "{{ item }}"
+      state: present
+      extra_args: --user
+    with_items:
+      - awscli
+      - aliyuncli
+      ## aliyun is throwing install errors?
+      # - aliyun-python-sdk-cdn 
+      # - aliyun-python-sdk-ecs
+    become: true
+    become_user: "{{ username }}"
+
+  ## packaged software installs
+
+  - name: "installing {{ item.name }}"
+    include_tasks: install_package.yml
+    with_items: "{{ software }}"
+
+  ## individual software installs
+
+  - name: add git-lfs repo
+    shell: "curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash"
+  - name: install git-lfs
+    apt:
+      name: "{{ item }}"
+      state: present
+      install_recommends: no
+    with_items:
+      - git-lfs
+  
+  - name: setup sublime text
+    template: 
+      src: files/sublime_text/Preferences.sublime-settings
+      dest: "/home/{{ username }}/.config/sublime-text-3/Packages/User/Preferences.sublime-settings"
+      owner: "{{ username }}"
+      group: "{{ username }}"
+
+  - name: setup sync config
+    template: 
+      src: files/sudobasher_sync/config.sh
+      dest: "/home/{{ username }}/Development/github/sudobasher/sync/config.sh"
+      owner: "{{ username }}"
+      group: "{{ username }}"
+
+  ## gnome settings
+
+  ## this doesn't work...?
+  # - name: setup date in gnome top bar
+  #   shell: gsettings set org.gnome.desktop.interface clock-show-seconds true
+  #   become: true
+  #   become_user: "{{ username }}""
+  #   become_method: su
+  ## software configs
+
