@@ -58,12 +58,17 @@
   set background image from storage > av > graphics / desktop backgrounds / [somefile]
   set power config
   set nemo preferences
+  added nemo server bookmarks
   set terminal prefs:
     130 x 40
     Monospace Regular 10
     text color EEEEEE
     user transparent background 5-10%
   setup favorite bar
+  set sublime text for opening by default:
+    .pem
+    .txt
+    .sh
   mount workstuff in /media/veracrypt2
   mount mystuff in /media/veracrypt1
   sign into:
@@ -76,6 +81,9 @@
     .aws configs
     .aliyun configs
   add [this folder]/files/startup_apps/applemouse.sh to startup applications
+  installed visual studio code extension: python 0.7.0
+  added wefunk pls to rhythm box
+  installed home printer drivers
 
 ## work stuff
 
