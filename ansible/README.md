@@ -7,7 +7,6 @@
 
 ## Instructions
 
-
 ### Grab a MacBook Pro
 
 ### Install Ubuntu Gnome 16.04.03 LTS:
