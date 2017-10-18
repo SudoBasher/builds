@@ -76,10 +76,10 @@
       owner: "{{ username }}"
       group: "{{ username }}"
     with_items:
-      - /home/{{ username }}//Development
-      - /home/{{ username }}//Storage
-      - /home/{{ username }}//.aws
-      - /home/{{ username }}//.aliyuncli
+      - /home/{{ username }}/Development
+      - /home/{{ username }}/Storage
+      - /home/{{ username }}/.aws
+      - /home/{{ username }}/.aliyuncli
 
   ## base software installs
 
@@ -182,7 +182,12 @@
       owner: "{{ username }}"
       group: "{{ username }}"
 
-  - name: setup sync config
+  - name: "install sudobasher sync"
+    git:
+      repo: 'https://github.com/sudobasher/sync.git'
+      dest: "/home/{{ username }}/Development/github/sudobasher/sync"
+
+  - name: "setup sudobasher sync config"
     template: 
       src: files/sudobasher_sync/config.sh
       dest: "/home/{{ username }}/Development/github/sudobasher/sync/config.sh"
