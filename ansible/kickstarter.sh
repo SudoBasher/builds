@@ -1,8 +1,8 @@
 #!/bin/bash
-## run as root ($ sudo su -)
+## run as your regular user
 ## run these commands one by one
 
-$ sudo su -
-$ ssh-keygen -b 4096 -t rsa -f /home/user/.ssh/id_rsa -C $HOSTNAME
-$ chmod 700 /home/user/.ssh/
-$ chown -R user:user /home/user/.ssh
+mkdir /home/${USER}/.ssh
+ssh-keygen -b 4096 -t rsa -f /home/${USER}/.ssh/id_rsa -C ${HOSTNAME}
+chmod 700 /home/${USER}/.ssh/
+chmod 400 /home/${USER}/.ssh/id_rsa
