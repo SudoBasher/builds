@@ -166,6 +166,15 @@
     with_items:
       - git-lfs
   
+  - name: "add sublime text folders"
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: "{{ username }}"
+      group: "{{ username }}"
+    with_items:
+      - "/home/{{ username }}/.config/sublime-text-3/Packages/User"
+
   - name: setup sublime text
     template: 
       src: files/sublime_text/Preferences.sublime-settings
