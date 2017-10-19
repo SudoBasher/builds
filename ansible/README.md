@@ -5,9 +5,9 @@
 1. Follow the instructions below.
 2. Drink beer.
 
-### Instructions
+## Instructions
 
-### Grab a MacBook Pro
+#### Grab a MacBook Pro
 
 #### Install Ubuntu Gnome 16.04.03 LTS:
 
@@ -19,9 +19,9 @@
   - require login and password
   - encrypt home directory, not your whole hard drive
 
-### Login to your new OS
+#### Login to your new OS
 
-### Run these commands:
+#### Run these commands:
 
 ```
 ecryptfs-unwrap-passphrase
@@ -42,7 +42,7 @@ sudo chmod +x bootstrap.sh
 . bootstrap.sh
 ```
 
-### Then do all this stuff one by one:
+#### Then do all this stuff one by one:
 
 Commands:
 ```
@@ -106,8 +106,9 @@ add [this folder]/files/startup_apps/applemouse.sh to startup applications
 installed visual studio code extension: python 0.7.0
 added wefunk pls to rhythm box
 installed home printer drivers
+```
 
-### Additional work stuff requirements
+#### Additional work stuff requirements
 
 ```
 add new pub key to github and wherever else needed
