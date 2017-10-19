@@ -30,6 +30,7 @@ sudo su -
 mkdir -p /home/user/Development/github/sudobasher/builds.local/ansible/
 cd /home/user/Development/github/sudobasher/builds.local/ansible
 wget https://raw.githubusercontent.com/SudoBasher/builds/master/ansible/kickstarter.sh
+exit
 ```
 
 Run commands in kickstarter.sh one by one manually, following the notes in there
@@ -37,6 +38,8 @@ Run commands in kickstarter.sh one by one manually, following the notes in there
 Then continue with:
 
 ```
+sudo su -
+cd /home/user/Development/github/sudobasher/builds.local/ansible
 wget https://raw.githubusercontent.com/SudoBasher/builds/master/ansible/bootstrap.sh
 sudo chmod +x bootstrap.sh
 . bootstrap.sh
