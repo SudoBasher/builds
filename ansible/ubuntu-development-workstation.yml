@@ -112,6 +112,8 @@
       - openvpn
       - ufw
       - nmap
+      - iftop
+      - bmon
       ## av
       - gimp
       ## office
