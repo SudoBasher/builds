@@ -76,10 +76,10 @@
       owner: "{{ username }}"
       group: "{{ username }}"
     with_items:
-      - /home/{{ username }}//Development
-      - /home/{{ username }}//Storage
-      - /home/{{ username }}//.aws
-      - /home/{{ username }}//.aliyuncli
+      - /home/{{ username }}/Development
+      - /home/{{ username }}/Storage
+      - /home/{{ username }}/.aws
+      - /home/{{ username }}/.aliyuncli
 
   ## base software installs
 
@@ -136,16 +136,28 @@
     become: true
     become_user: "{{ username }}"
 
+  - name: "install xkcdpass"
+    pip:
+      name: "{{ item }}"
+      state: present
+      extra_args: --user
+    with_items:
+      - xkcdpass
+    become: true
+    become_user: "{{ username }}"
+
   ## packaged software installs
 
   - name: "installing {{ item.name }}"
     include_tasks: install_package.yml
     with_items: "{{ software }}"
+    ignore_errors: true
 
   ## individual software installs
 
   - name: add git-lfs repo
     shell: "curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash"
+  
   - name: install git-lfs
     apt:
       name: "{{ item }}"
@@ -154,6 +166,15 @@
     with_items:
       - git-lfs
   
+  - name: "add sublime text folders"
+    file:
+      path: "{{ item }}"
+      state: directory
+      owner: "{{ username }}"
+      group: "{{ username }}"
+    with_items:
+      - "/home/{{ username }}/.config/sublime-text-3/Packages/User"
+
   - name: setup sublime text
     template: 
       src: files/sublime_text/Preferences.sublime-settings
@@ -161,12 +182,30 @@
       owner: "{{ username }}"
       group: "{{ username }}"
 
-  - name: setup sync config
+  - name: "install sudobasher sync"
+    git:
+      repo: 'https://github.com/sudobasher/sync.git'
+      dest: "/home/{{ username }}/Development/github/sudobasher/sync"
+
+  - name: "setup sudobasher sync config"
     template: 
       src: files/sudobasher_sync/config.sh
       dest: "/home/{{ username }}/Development/github/sudobasher/sync/config.sh"
       owner: "{{ username }}"
       group: "{{ username }}"
+
+  - name: "ensuring {{ username }} directory is owned by {{ username }}"
+    file:
+      path: "/home/{{ username }}"
+      state: directory
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      recurse: yes
+
+  - name: install printer support
+    apt:
+      name: lsb
+      state: present
 
   ## gnome settings
 

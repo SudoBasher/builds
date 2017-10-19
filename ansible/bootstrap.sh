@@ -5,14 +5,16 @@
 ## $ sudo chmod +x bootstrap.sh
 ## $ . bootstrap.sh
 
-mkdir -p /home/user/Downloads/Packages/
-sudo chown -R user:user /home/user/Downloads/Packages/
-mkdir -p /home/user/Development/github/sudobasher/builds.local/ansible/
-wget https://raw.githubusercontent.com/SudoBasher/builds/master/ansible/ubuntu-development-workstation.yml -O /home/user/Development/github/sudobasher/builds.local/ansible/ubuntu-development-workstation.yml
-sudo chown -R user:user /home/user/Development/
-apt-get -y update
-apt-get install software-properties-common
-apt-add-repository ppa:ansible/ansible
-apt-get -y update
-apt-get -y install ansible
-ansible-playbook /home/user/Development/github/sudobasher/builds.local/ansible/ubuntu-development-workstation.yml 
+export USERNAME=user ## set this to your login username
+mkdir -p /home/${USERNAME}/Downloads/Packages/
+sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/Downloads/Packages/
+apt -y install git
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+git clone http://git@github.com/sudobasher/builds/ /home/${USERNAME}/Development/github/sudobasher/builds/
+sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/Development/
+apt -y update
+apt -y install software-properties-common
+apt-add-repository -y ppa:ansible/ansible
+apt -y update
+apt -y install ansible
+ansible-playbook /home/${USERNAME}/Development/github/sudobasher/builds/ansible/ubuntu-development-workstation.yml 
