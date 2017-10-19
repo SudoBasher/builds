@@ -9,6 +9,7 @@ export USERNAME=user ## set this to your login username
 mkdir -p /home/${USERNAME}/Downloads/Packages/
 sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/Downloads/Packages/
 apt -y install git
+ssh-keyscan github.com >> ~/.ssh/known_hosts
 git clone http://git@github.com/sudobasher/builds/ /home/${USERNAME}/Development/github/sudobasher/builds/
 sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/Development/
 apt -y update

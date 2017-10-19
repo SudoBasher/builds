@@ -194,6 +194,14 @@
       owner: "{{ username }}"
       group: "{{ username }}"
 
+  - name: "ensuring {{ username }} directory is owned by {{ username }}"
+    file:
+      path: "/home/{{ username }}"
+      state: directory
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      recurse: yes
+
   - name: install printer support
     apt:
       name: lsb
