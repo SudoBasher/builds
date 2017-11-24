@@ -25,6 +25,10 @@
         register: mysql_workbench_community
         url:  https://dev.mysql.com/get/Downloads/MySQLGUITools/
         package: mysql-workbench-community-6.3.9-1ubuntu16.04-amd64.deb
+      - name: skype
+        register: skype
+        url: https://go.skype.com/
+        package: skypeforlinux-64.deb
 
   tasks:
 
@@ -42,6 +46,8 @@
     lineinfile:
       dest: "{{ item }}"
       line: 'export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "'
+      regexp: 'export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "'
+      create: yes
       state: present
     with_items:
       - /home/user/.bashrc
@@ -188,6 +194,7 @@
     git:
       repo: 'https://github.com/sudobasher/sync.git'
       dest: "/home/{{ username }}/Development/github/sudobasher/sync"
+    ignore_errors: yes
 
   - name: "setup sudobasher sync config"
     template: 
@@ -195,6 +202,7 @@
       dest: "/home/{{ username }}/Development/github/sudobasher/sync/config.sh"
       owner: "{{ username }}"
       group: "{{ username }}"
+      # force: no
 
   - name: "ensuring {{ username }} directory is owned by {{ username }}"
     file:
