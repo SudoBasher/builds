@@ -124,6 +124,11 @@
       - gimp
       ## office
       - libreoffice
+      ## digital currency
+      - python-qt4
+      - python3-setuptools
+      - python3-pyqt5
+      - python3-pip
   - name: enable firewall
     ufw:
       state: enabled
@@ -216,6 +221,11 @@
     apt:
       name: lsb
       state: present
+
+  - name: install electrum
+    shell: pip3 install https://download.electrum.org/3.0.2/Electrum-3.0.2.tar.gz
+    become: true
+    become_user: "{{ username }}"
 
   ## gnome settings
 
