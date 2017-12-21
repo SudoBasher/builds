@@ -14,7 +14,7 @@
         url: https://dl.google.com/linux/direct/
         package: google-chrome-stable_current_amd64.deb
       - name: zoom 
-        register: gitkraken
+        register: zoom
         url: https://zoom.us/client/latest/
         package: zoom_amd64.deb
       - name: code 
@@ -29,6 +29,10 @@
         register: skype
         url: https://go.skype.com/
         package: skypeforlinux-64.deb
+      - name: ethereumwallet
+        register: ethereumwallet
+        url: https://github.com/ethereum/mist/releases/download/v0.9.3/Ethereum-Wallet-linux64-0-9-3.deb
+        package: Ethereum-Wallet-linux64-0-9-3.deb
 
   tasks:
 
@@ -124,6 +128,11 @@
       - gimp
       ## office
       - libreoffice
+      ## digital currency
+      - python-qt4
+      - python3-setuptools
+      - python3-pyqt5
+      - python3-pip
   - name: enable firewall
     ufw:
       state: enabled
@@ -216,6 +225,11 @@
     apt:
       name: lsb
       state: present
+
+  - name: install electrum
+    shell: pip3 install https://download.electrum.org/3.0.2/Electrum-3.0.2.tar.gz
+    become: true
+    become_user: "{{ username }}"
 
   ## gnome settings
 
